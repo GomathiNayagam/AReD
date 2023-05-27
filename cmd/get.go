@@ -1,5 +1,4 @@
-// Copyright © 2017 Will Rowe <w.p.m.rowe@gmail.com>
-//
+// 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
 // in the Software without restriction, including without limitation the rights
@@ -31,22 +30,22 @@ import (
 	"os"
 
 	"github.com/spf13/cobra"
-	"github.com/will-rowe/groot/src/version"
+	"github.com/will-rowe/AReD/src/version"
 )
 
 // available databases to download
-var availDb = []string{"arg-annot", "resfinder", "card", "groot-db", "groot-core-db"}
+var availDb = []string{"arg-annot", "resfinder", "card", "AReD-db", "AReD-core-db"}
 var availIdent = []string{"90"}
 var md5sums = map[string]string{
 	"arg-annot.90":     "d5398b7bd40d7e872c3e4a689cee4726",
 	"resfinder.90":     "de34ab790693cb7c7b656d537ec40f05",
 	"card.90":          "23b24d37edfd20016c2d8b5a522a4d10",
-	"groot-db.90":      "2cbbe9a89c2ce23c09575198832250d3",
-	"groot-core-db.90": "f3cac49ff44624a26ea2d92171a73174",
+	"AReD-db.90":       "2cbbe9a89c2ce23c09575198832250d3",
+	"AReD-core-db.90":  "f3cac49ff44624a26ea2d92171a73174",
 }
 
-// dbUrl to download databases from
-var dbURL = fmt.Sprintf("https://github.com/will-rowe/groot/raw/master/db/clustered-ARG-databases/%v/", version.GetBaseVersion())
+// dbURL to download databases from
+var dbURL = fmt.Sprintf("https://github.com/will-rowe/AReD/raw/master/db/clustered-ARG-databases/%v/", version.GetBaseVersion())
 
 // the command line arguments
 var (
@@ -67,7 +66,7 @@ var getCmd = &cobra.Command{
 
 func init() {
 	RootCmd.AddCommand(getCmd)
-	database = getCmd.Flags().StringP("database", "d", "arg-annot", "database to download (please choose: arg-annot/resfinder/card/groot-db/groot-core-db)")
+	database = getCmd.Flags().StringP("database", "d", "arg-annot", "database to download (please choose: arg-annot/resfinder/card/AReD-db/AReD-core-db)")
 	identity = getCmd.Flags().String("identity", "90", "the sequence identity used to cluster the database (only 90 available atm)")
 	dbDir = getCmd.PersistentFlags().StringP("out", "o", ".", "directory to save the database to")
 }
@@ -76,7 +75,7 @@ func init() {
   A function to check user supplied parameters
 */
 func getParamCheck() error {
-	// check requested db exists in groot records
+	// check requested db exists in AReD records
 	checkPass := false
 	for _, avail := range availDb {
 		if *database == avail {
@@ -84,7 +83,7 @@ func getParamCheck() error {
 		}
 	}
 	if checkPass == false {
-		return fmt.Errorf("unrecognised DB: %v\n\nplease choose either: arg-annot/resfinder/card/groot-db/groot-core-db", *database)
+		return fmt.Errorf("unrecognised DB: %v\n\nplease choose either: arg-annot/resfinder/card/AReD-db/AReD-core-db", *database)
 	}
 	checkPass = false
 	for _, avail := range availIdent {
@@ -93,7 +92,7 @@ func getParamCheck() error {
 		}
 	}
 	if checkPass == false {
-		return fmt.Errorf("identity value not available: %v\n\nplease choose either: 90, ", *identity)
+		return fmt.Errorf("identity value not available: %v\n\nplease choose either: 90", *identity)
 	}
 	// setup the dbDir
 	if _, err := os.Stat(*dbDir); os.IsNotExist(err) {
@@ -153,7 +152,7 @@ func getMD5(savePath string) error {
 */
 func runGet() {
 	if err := getParamCheck(); err != nil {
-		fmt.Println("could not run groot get...")
+		fmt.Println("could not run AReD get...")
 		fmt.Println(err)
 		os.Exit(1)
 	}
@@ -205,7 +204,7 @@ func runGet() {
 		os.Exit(1)
 	}
 	fmt.Printf("database saved to: %v\n", dbSave)
-	fmt.Printf("now run `groot index -m %v` or `groot index --help` for full options\n", dbSave)
+	fmt.Printf("now run `AReD index -m %v` or `AReD index --help` for full options\n", dbSave)
 }
 
 // Untar will untar an archive
@@ -245,3 +244,4 @@ func Untar(dst string, fileReader io.Reader) error {
 	}
 	return nil
 }
+
