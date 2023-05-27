@@ -55,6 +55,11 @@ func init() {
 
 // runIndex is the main function for the index sub-command
 func runIndex() {
+	if err := indexParamCheck(); err != nil {
+		fmt.Println("could not run index subcommand...")
+		fmt.Println(err)
+		os.Exit(1)
+	}
 
 	// check index flag is set (global flag but don't require it for all sub commands)
 	if *indexDir == "" {
@@ -77,14 +82,13 @@ func runIndex() {
 		log.SetOutput(os.Stdout)
 	}
 
-	// start the index  sub command
+	// start the index sub command
 	start := time.Now()
 	log.Printf("i am groot (version %s)", version.GetVersion())
 	log.Printf("starting the index subcommand")
 
 	// check the supplied files and then log some stuff
 	log.Printf("checking parameters...")
-	misc.ErrorCheck(indexParamCheck())
 	log.Printf("\tprocessors: %d", *proc)
 	log.Printf("\tk-mer size: %d", *kmerSize)
 	log.Printf("\tsketch size: %d", *sketchSize)
