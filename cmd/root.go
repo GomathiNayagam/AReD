@@ -1,4 +1,4 @@
-// Copyright © 2020 Will Rowe <w.p.m.rowe@gmail.com>
+// Copyright © 2023 Gomathinayagam <carthysgn@gmail.com>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -29,7 +29,7 @@ import (
 
 // the command line arguments
 var (
-	indexDir  *string // directory for groot to write/read index files
+	indexDir  *string // directory for AReD to write/read index files
 	logFile   *string // name to use for log file
 	proc      *int    // number of processors to use
 	profiling *bool   // create profile for go pprof
@@ -37,21 +37,21 @@ var (
 
 // RootCmd represents the base command when called without any subcommands
 var RootCmd = &cobra.Command{
-	Use:   "groot",
+	Use:   "AReD",
 	Short: "annotate Antibiotic Resistance Genes (ARGs) from metagenomes using variation graphs",
 	Long: `
 #####################################################################################
-		GROOT: Graphing Resistance genes Out Of meTagenomes
+		AReD: Annotation of Resistance genes in metagenomes using variation graphs
 #####################################################################################
 
- GROOT is a tool to type Antibiotic Resistance Genes (ARGs) in metagenomic samples.
+ AReD is a tool to type Antibiotic Resistance Genes (ARGs) in metagenomic samples.
 
  It combines variation graph representation of gene sets with an LSH indexing scheme
  to allow for fast classification of metagenomic reads. Subsequent hierarchical local
  alignment of classified reads against graph traversals facilitates accurate reconstruction
  of full-length gene sequences using a simple scoring scheme.
 
- GROOT can output an ARG alignment file, as well as a typing report and the variation graphs
+ AReD can output an ARG alignment file, as well as a typing report and the variation graphs
  with aligned reads.`,
 }
 
@@ -66,8 +66,8 @@ func Execute() {
 
 // init the command line arguments
 func init() {
-	indexDir = RootCmd.PersistentFlags().StringP("indexDir", "i", "", "directory for to write/read the GROOT index files")
-	logFile = RootCmd.PersistentFlags().String("log", "groot.log", "filename for log file")
+	indexDir = RootCmd.PersistentFlags().StringP("indexDir", "i", "", "directory for to write/read the AReD index files")
+	logFile = RootCmd.PersistentFlags().String("log", "AReD.log", "filename for log file")
 	proc = RootCmd.PersistentFlags().IntP("processors", "p", 1, "number of processors to use")
-	profiling = RootCmd.PersistentFlags().Bool("profiling", false, "create the files needed to profile GROOT using the go tool pprof")
+	profiling = RootCmd.PersistentFlags().Bool("profiling", false, "create the files needed to profile AReD using the go tool pprof")
 }
